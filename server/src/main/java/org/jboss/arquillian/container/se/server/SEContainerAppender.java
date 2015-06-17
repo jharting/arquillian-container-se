@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat, Inc., and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -16,14 +16,18 @@
  */
 package org.jboss.arquillian.container.se.server;
 
-import org.jboss.arquillian.container.test.spi.client.deployment.AuxiliaryArchiveAppender;
-import org.jboss.arquillian.core.spi.LoadableExtension;
+import org.jboss.arquillian.container.test.spi.client.deployment.CachedAuxilliaryArchiveAppender;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
-public class ObserverRegisteringExtension implements LoadableExtension {
+public class SEContainerAppender extends CachedAuxilliaryArchiveAppender {
 
     @Override
-    public void register(final ExtensionBuilder builder) {
-       builder.observer(AfterUndeployObserver.class);
-       builder.service(AuxiliaryArchiveAppender.class, SEContainerAppender.class);
+    protected Archive<?> buildArchive() {
+        return ShrinkWrap.create(JavaArchive.class, "arquillian-container-se.jar")
+                .addPackage(Main.class.getPackage())
+                .addPackage("org.jboss.arquillian.protocol.jmx");
     }
+
 }

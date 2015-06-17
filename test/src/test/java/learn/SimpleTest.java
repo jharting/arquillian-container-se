@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat, Inc., and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -14,16 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.arquillian.container.se.server;
+package learn;
 
-import org.jboss.arquillian.container.test.spi.client.deployment.AuxiliaryArchiveAppender;
-import org.jboss.arquillian.core.spi.LoadableExtension;
+import junit.framework.Assert;
 
-public class ObserverRegisteringExtension implements LoadableExtension {
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-    @Override
-    public void register(final ExtensionBuilder builder) {
-       builder.observer(AfterUndeployObserver.class);
-       builder.service(AuxiliaryArchiveAppender.class, SEContainerAppender.class);
+@RunWith(Arquillian.class)
+public class SimpleTest {
+
+    @Deployment
+    public static Archive<?> getDeployment() {
+        return ShrinkWrap.create(JavaArchive.class).addPackage(SimpleTest.class.getPackage());
+    }
+
+    @Test
+    public void test() {
+        Assert.assertEquals(2, 1 + 1);
     }
 }

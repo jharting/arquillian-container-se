@@ -16,12 +16,10 @@
  */
 package org.jboss.arquillian.container.se.managed;
 
+import org.jboss.arquillian.container.se.managed.jmx.CustomJMXProtocol;
 import org.jboss.arquillian.container.spi.client.container.DeployableContainer;
-import org.jboss.arquillian.container.test.impl.deployment.ArquillianDeploymentAppender;
-import org.jboss.arquillian.container.test.spi.client.deployment.AuxiliaryArchiveAppender;
 import org.jboss.arquillian.container.test.spi.client.protocol.Protocol;
 import org.jboss.arquillian.core.spi.LoadableExtension;
-import org.jboss.arquillian.container.se.managed.jmx.CustomJMXProtocol;
 
 public class ManagedSEContainerExtension implements LoadableExtension {
 
@@ -29,7 +27,8 @@ public class ManagedSEContainerExtension implements LoadableExtension {
     public void register(final ExtensionBuilder builder) {
         builder.service(DeployableContainer.class, ManagedSEDeployableContainer.class)
                 .service(Protocol.class, CustomJMXProtocol.class)
-                .service(AuxiliaryArchiveAppender.class, ArquillianDeploymentAppender.class);
+//                .service(AuxiliaryArchiveAppender.class, ArquillianDeploymentAppender.class)
+                ;
 
     }
 }

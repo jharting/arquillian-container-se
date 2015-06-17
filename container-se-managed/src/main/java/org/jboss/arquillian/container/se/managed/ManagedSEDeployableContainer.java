@@ -121,6 +121,7 @@ public class ManagedSEDeployableContainer implements DeployableContainer<Managed
     @Override
     public ProtocolMetaData deploy(final Archive archive) throws DeploymentException {
 
+        System.out.println(archive.toString(true));
         log.info("Deploying " + archive.getName());
         Map<ArchivePath, Node> content = archive.getContent(new IncludeRegExpPaths(REGEX_FOR_JAR_FILE));
 
@@ -197,6 +198,9 @@ public class ManagedSEDeployableContainer implements DeployableContainer<Managed
     }
 
     private void readJarFilesFromDirectory() throws DeploymentException {
+        if (librariesPath == null) {
+            return;
+        }
         File lib = new File(librariesPath);
         if (!lib.exists() || lib.isFile()) {
             throw new DeploymentException("Cannot read files from " + librariesPath);
